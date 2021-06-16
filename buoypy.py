@@ -569,7 +569,7 @@ class historic_data:
         for L in links:
 
             new_df = self.get_stand_meteo(link=L)
-            print('Appending : ' + L)
+            print('Appending data from: ' + L)
             df = df.append(new_df)
 
         return df
