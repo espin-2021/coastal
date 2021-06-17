@@ -44,7 +44,7 @@ def run_model_loop(Number_Iterations, domain ,cem ,waves, animate=True,update_an
             print('Time Step: ',time, ' days')
 
 
-def intitialize_models(params,domain,cem,waves):
+def initialize_models(params,domain,cem,waves):
     '''
     Inputs:
     ------
