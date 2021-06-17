@@ -641,18 +641,9 @@ def save_jpg(metadata, settings, **kwargs):
             fn = SDS_tools.get_filenames(filenames[i],filepath, satname)
             # read and preprocess image
             im_ms, georef, cloud_mask, im_extra, im_QA, im_nodata = preprocess_single(fn, satname, settings['cloud_mask_issue'])
-
-            # compute cloud_cover percentage (with no data pixels)
-            cloud_cover_combined = np.divide(sum(sum(cloud_mask.astype(int))),
+            # calculate cloud cover
+            cloud_cover = np.divide(sum(sum(cloud_mask.astype(int))),
                                     (cloud_mask.shape[0]*cloud_mask.shape[1]))
-            if cloud_cover_combined > 0.99: # if 99% of cloudy pixels in image skip
-                continue
-
-            # remove no data pixels from the cloud mask (for example L7 bands of no data should not be accounted for)
-            cloud_mask_adv = np.logical_xor(cloud_mask, im_nodata)
-            # compute updated cloud cover percentage (without no data pixels)
-            cloud_cover = np.divide(sum(sum(cloud_mask_adv.astype(int))),
-                                    (sum(sum((~im_nodata).astype(int)))))
             # skip image if cloud cover is above threshold
             if cloud_cover > cloud_thresh or cloud_cover == 1:
                 continue
@@ -742,17 +733,9 @@ def get_reference_sl(metadata, settings):
             fn = SDS_tools.get_filenames(filenames[i],filepath, satname)
             im_ms, georef, cloud_mask, im_extra, im_QA, im_nodata = preprocess_single(fn, satname, settings['cloud_mask_issue'])
 
-            # compute cloud_cover percentage (with no data pixels)
-            cloud_cover_combined = np.divide(sum(sum(cloud_mask.astype(int))),
+            # calculate cloud cover
+            cloud_cover = np.divide(sum(sum(cloud_mask.astype(int))),
                                     (cloud_mask.shape[0]*cloud_mask.shape[1]))
-            if cloud_cover_combined > 0.99: # if 99% of cloudy pixels in image skip
-                continue
-
-            # remove no data pixels from the cloud mask (for example L7 bands of no data should not be accounted for)
-            cloud_mask_adv = np.logical_xor(cloud_mask, im_nodata)
-            # compute updated cloud cover percentage (without no data pixels)
-            cloud_cover = np.divide(sum(sum(cloud_mask_adv.astype(int))),
-                                    (sum(sum((~im_nodata).astype(int)))))
 
             # skip image if cloud cover is above threshold
             if cloud_cover > settings['cloud_thresh']:
@@ -882,13 +865,17 @@ def get_reference_sl(metadata, settings):
                         plt.draw()
                         ginput(n=1, timeout=3, show_clicks=False)
                         plt.close()
+                        print(pts_coords)
                         break
 
                 pts_sl = np.delete(pts_sl,0,axis=0)
                 # convert world image coordinates to user-defined coordinate system
                 image_epsg = metadata[satname]['epsg'][i]
                 pts_coords = SDS_tools.convert_epsg(pts_sl, image_epsg, settings['output_epsg'])
-
+                
+				
+				
+				
                 # save the reference shoreline as .pkl
                 filepath = os.path.join(filepath_data, sitename)
                 with open(os.path.join(filepath, sitename + '_reference_shoreline.pkl'), 'wb') as f:
@@ -913,7 +900,7 @@ def get_reference_sl(metadata, settings):
 
                 print('Reference shoreline has been saved in ' + filepath)
                 break
-            
+         
     # check if a shoreline was digitised
     if len(pts_coords) == 0:
         raise Exception('No cloud free images are available to digitise the reference shoreline,'+

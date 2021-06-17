@@ -43,11 +43,14 @@ def shorelinetogrid(x,y,dx,dy,plotdata=True):
     zg[IN]=(min(A*(dist[IN])**(2/3)))+1
     zg=zg*-1
     if plotdata==True:
+        plt.figure(figsize=(10,8))
         Bathy = plt.contourf(xg,yg,zg, cmap=plt.cm.GnBu)
         cbar = plt.colorbar(Bathy)
-        cbar.ax.set_ylabel('Depth (m)')
-        plt.xlabel('Eastings')
-        plt.ylabel('Northings')
+        cbar.ax.set_ylabel('Water Depth (m)',fontsize=20,rotation=-90, labelpad=30)
+        plt.xlabel('Eastings',fontsize=20)
+        plt.ylabel('Northings',fontsize=20)
+        plt.tick_params('both',labelsize=15)
+        cbar.ax.tick_params('y',labelsize=15)
         Shore = plt.plot(x,y,'k')
     return xg,yg,zg
 

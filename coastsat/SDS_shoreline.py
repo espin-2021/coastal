@@ -17,11 +17,7 @@ import skimage.measure as measure
 import skimage.morphology as morphology
 
 # machine learning modules
-import sklearn
-if sklearn.__version__[:4] == '0.20':
-    from sklearn.externals import joblib
-else:
-    import joblib
+from sklearn.externals import joblib
 from shapely.geometry import LineString
 
 # other modules
@@ -114,22 +110,19 @@ def extract_shorelines(metadata, settings):
         output_idxkeep = []    # index that were kept during the analysis (cloudy images are skipped)
         output_t_mndwi = []    # MNDWI threshold used to map the shoreline
         
-        # load classifiers (if sklearn version above 0.20, learn the new files)
-        str_new = ''
-        if not sklearn.__version__[:4] == '0.20':
-            str_new = '_new'
+        # load classifiers
         if satname in ['L5','L7','L8']:
             pixel_size = 15
             if settings['sand_color'] == 'dark':
-                clf = joblib.load(os.path.join(filepath_models, 'NN_4classes_Landsat_dark%s.pkl'%str_new))
+                clf = joblib.load(os.path.join(filepath_models, 'NN_4classes_Landsat_dark.pkl'))
             elif settings['sand_color'] == 'bright':
-                clf = joblib.load(os.path.join(filepath_models, 'NN_4classes_Landsat_bright%s.pkl'%str_new))
+                clf = joblib.load(os.path.join(filepath_models, 'NN_4classes_Landsat_bright.pkl'))
             else:
-                clf = joblib.load(os.path.join(filepath_models, 'NN_4classes_Landsat%s.pkl'%str_new))
+                clf = joblib.load(os.path.join(filepath_models, 'NN_4classes_Landsat.pkl'))
 
         elif satname == 'S2':
             pixel_size = 10
-            clf = joblib.load(os.path.join(filepath_models, 'NN_4classes_S2%s.pkl'%str_new))
+            clf = joblib.load(os.path.join(filepath_models, 'NN_4classes_S2.pkl'))
 
         # convert settings['min_beach_area'] and settings['buffer_size'] from metres to pixels
         buffer_size_pixels = np.ceil(settings['buffer_size']/pixel_size)
@@ -157,7 +150,7 @@ def extract_shorelines(metadata, settings):
             cloud_mask_adv = np.logical_xor(cloud_mask, im_nodata) 
             # compute updated cloud cover percentage (without no data pixels)
             cloud_cover = np.divide(sum(sum(cloud_mask_adv.astype(int))),
-                                    (sum(sum((~im_nodata).astype(int)))))
+                                    (cloud_mask.shape[0]*cloud_mask.shape[1]))
             # skip image if cloud cover is above user-defined threshold
             if cloud_cover > settings['cloud_thresh']:
                 continue
@@ -1013,34 +1006,27 @@ def adjust_detection(im_ms, cloud_mask, im_labels, im_ref_buffer, image_epsg, ge
     ax4.set_facecolor('0.75')
     ax4.yaxis.grid(color='w', linestyle='--', linewidth=0.5)
     ax4.set(ylabel='PDF',yticklabels=[], xlim=[-1,1])
-    if len(int_sand) > 0 and sum(~np.isnan(int_sand)) > 0:
+    if len(int_sand) > 0:
         bins = np.arange(np.nanmin(int_sand), np.nanmax(int_sand) + binwidth, binwidth)
         ax4.hist(int_sand, bins=bins, density=True, color=colours[0,:], label='sand')
-    if len(int_ww) > 0 and sum(~np.isnan(int_ww)) > 0:
+    if len(int_ww) > 0:
         bins = np.arange(np.nanmin(int_ww), np.nanmax(int_ww) + binwidth, binwidth)
         ax4.hist(int_ww, bins=bins, density=True, color=colours[1,:], label='whitewater', alpha=0.75) 
-    if len(int_water) > 0 and sum(~np.isnan(int_water)) > 0:
+    if len(int_water) > 0:
         bins = np.arange(np.nanmin(int_water), np.nanmax(int_water) + binwidth, binwidth)
         ax4.hist(int_water, bins=bins, density=True, color=colours[2,:], label='water', alpha=0.75) 
-    if len(int_other) > 0 and sum(~np.isnan(int_other)) > 0:
+    if len(int_other) > 0:
         bins = np.arange(np.nanmin(int_other), np.nanmax(int_other) + binwidth, binwidth)
         ax4.hist(int_other, bins=bins, density=True, color='C4', label='other', alpha=0.5) 
     
     # automatically map the shoreline based on the classifier if enough sand pixels
-    try:
-        if sum(sum(im_labels[:,:,0])) > 10:
-            # use classification to refine threshold and extract the sand/water interface
-            contours_mndwi, t_mndwi = find_wl_contours2(im_ms, im_labels, cloud_mask,
-                                                        buffer_size_pixels, im_ref_buffer)
-        else:       
-            # find water contours on MNDWI grayscale image
-            contours_mndwi, t_mndwi = find_wl_contours1(im_mndwi, cloud_mask, im_ref_buffer)    
-    except:
-        print('Could not map shoreline so image was skipped')
-        # clear axes and return skip_image=True, so that image is skipped above
-        for ax in fig.axes:
-            ax.clear()
-        return True,[],[]
+    if sum(sum(im_labels[:,:,0])) > 10:
+        # use classification to refine threshold and extract the sand/water interface
+        contours_mndwi, t_mndwi = find_wl_contours2(im_ms, im_labels, cloud_mask,
+                                                    buffer_size_pixels, im_ref_buffer)
+    else:       
+        # find water contours on MNDWI grayscale image
+        contours_mndwi, t_mndwi = find_wl_contours1(im_mndwi, cloud_mask, im_ref_buffer)    
 
     # process the water contours into a shoreline
     shoreline = process_shoreline(contours_mndwi, cloud_mask, georef, image_epsg, settings)

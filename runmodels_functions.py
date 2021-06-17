@@ -12,7 +12,11 @@ from IPython.display import clear_output
 # In[2]:
 
 
+<<<<<<< HEAD
 def plot_coast(domain,dx,dy):
+=======
+def plot_coast(domain):
+>>>>>>> e7de040027fb946602591f8f84fa326839c19e86
     '''Plot the coastline.
     
     Inputs:
@@ -22,7 +26,11 @@ def plot_coast(domain,dx,dy):
     '''
     N,M = domain.shape
     s = M/N
+<<<<<<< HEAD
     fig,ax = plt.subplots(figsize=(int(s*8),7))
+=======
+    fig,ax = plt.subplots(figsize=(int(s*6),5))
+>>>>>>> e7de040027fb946602591f8f84fa326839c19e86
     im = ax.imshow(domain, origin='lower', cmap='viridis')
     cb = fig.colorbar(im,ax=ax)
     cb.ax.set_ylabel('Water Depth (m)',fontsize=20,rotation=-90, labelpad=30)
@@ -63,7 +71,11 @@ def run_model_loop(time_years, domain ,cem ,waves, animate=True,update_ani_years
     alpha = 'sea_surface_water_wave__azimuth_angle_of_opposite_of_phase_velocity'
     update_ani = int(update_ani_years/cem.get_value('model__time_step'))
     T = int(time_years/cem.get_value('model__time_step'))
+<<<<<<< HEAD
     dx,dy = cem.grid_spacing(cem.var_grid('sea_water__depth'))
+=======
+    
+>>>>>>> e7de040027fb946602591f8f84fa326839c19e86
     for time in range(T):
         waves.update()
         angle = waves.get_value(alpha)
@@ -72,7 +84,11 @@ def run_model_loop(time_years, domain ,cem ,waves, animate=True,update_ani_years
         if animate:
             if time%update_ani == 0:
                 clear_output(wait=True)
+<<<<<<< HEAD
                 plot_coast(cem.get_value('land_surface__elevation').reshape(domain.shape),dx,dy)
+=======
+                plot_coast(cem.get_value('land_surface__elevation').reshape(domain.shape))
+>>>>>>> e7de040027fb946602591f8f84fa326839c19e86
                 plt.title('Time : '+ str(int(time*cem.get_value('model__time_step'))) +' years',fontsize=20)
                 plt.show()
 
@@ -81,7 +97,11 @@ def run_model_loop(time_years, domain ,cem ,waves, animate=True,update_ani_years
             print('Time Step: ',time, ' days')
 
 
+<<<<<<< HEAD
 def initialize_models(params,domain,cem,waves,set_land=True):
+=======
+def intitialize_models(params,domain,cem,waves,set_land=True):
+>>>>>>> e7de040027fb946602591f8f84fa326839c19e86
     '''
     Inputs:
     ------
