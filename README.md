@@ -1,5 +1,5 @@
 ## Simulating Shoreline Change using Coupled Coastsat and Coastline Evolution Model (CEM)
-This lab couples two coastal models: CoastSat and Coastal Evolution Model (CEM) in a jupyter notebook to allow users to explore shoreline change using real, observed shorelines and wave data. 
+This lab couples two coastal models: _CoastSat_ and _Coastal Evolution Model (CEM)_ in a jupyter notebook to allow users to explore shoreline change using real, observed shorelines and wave data. 
 
 We use CoastSat to download and extract shorelines from satellite imagery.
 These shorelines feed into the CEM where they are evolved by historical wave characteristics from a nearby buoy.
