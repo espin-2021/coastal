@@ -26,7 +26,9 @@ conda activate coast_env
 
 Request access to Google Earth Engine at https://signup.earthengine.google.com/. It takes about 1 day for Google to approve requests.
 Once your request has been approved, activate your coast_env environment and run the following command in Anaconda prompt/the terminal:
-```earthengine authenticate```
+```
+earthengine authenticate
+```
 A web browser will open, login with a gmail account and accept the terms and conditions. Then copy the authorization code into the Anaconda terminal.
 
   ### Step 4. You're now ready to run this notebook!
