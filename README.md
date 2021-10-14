@@ -32,7 +32,7 @@ Type ```jupyter notebook``` in the terminal. A webpage will open showing your lo
 
 
 **More information on CoastSat: https://github.com/kvos/CoastSat
-
+**
 **More information on CEM: https://csdms.colorado.edu/wiki/Model:CEM
 **
 We also use functions developed by nickc1 to download NDBC buoy data - see https://github.com/nickc1/buoypy**
