@@ -13,10 +13,14 @@ We recommend using anaconda to help manage your python packages - all of the fol
 Open the Anaconda prompt (PC) or terminal (Mac, Linux) and ```cd``` (change directory) into the folder of this repo.
 
 Create a new environment using the environment.yml file to install all the required packages
-```conda env create -f environment.yml -n coast_env```
+```
+conda env create -f environment.yml -n coast_env
+```
 
 Now activate the new environment
-```conda activate coast_env```
+```
+conda activate coast_env
+```
 
   ### Step 3. Activate Google Earth Engine Python API
 
