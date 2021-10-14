@@ -10,29 +10,29 @@ These shorelines feed into the CEM where they are evolved by historical wave cha
 
   ### Step 2. Create a virtual environment
 We recommend using anaconda to help manage your python packages - all of the following instructions assume you have Anaconda3 installed and working on your machine.
-Open the Anaconda prompt (PC) or terminal (Mac, Linux) and '''cd''' (change directory) into the folder of this repo.
+Open the Anaconda prompt (PC) or terminal (Mac, Linux) and ```cd``` (change directory) into the folder of this repo.
 
 Create a new environment using the environment.yml file to install all the required packages
-'''conda env create -f environment.yml -n coast_env'''
+```conda env create -f environment.yml -n coast_env```
 
 Now activate the new environment
-'''conda activate coast_env
+```conda activate coast_env```
 
   ### Step 3. Activate Google Earth Engine Python API
 
 Request access to Google Earth Engine at https://signup.earthengine.google.com/. It takes about 1 day for Google to approve requests.
 Once your request has been approved, activate your coast_env environment and run the following command in Anaconda prompt/the terminal:
-'''earthengine authenticate'''
+```earthengine authenticate```
 A web browser will open, login with a gmail account and accept the terms and conditions. Then copy the authorization code into the Anaconda terminal.
 
   ### Step 4. You're now ready to run this notebook!
 
-Type '''jupyter notebook''' in the terminal. A webpage will open showing your local repository in the jupyter application. Open the coastal notebook and start clicking!
+Type ```jupyter notebook``` in the terminal. A webpage will open showing your local repository in the jupyter application. Open the coastal notebook and start clicking!
 * note : remember to activate your virtual environment each time you use this lab.
 
 
-More information on CoastSat: https://github.com/kvos/CoastSat
+**More information on CoastSat: https://github.com/kvos/CoastSat
 
-More information on CEM: https://csdms.colorado.edu/wiki/Model:CEM
-
-We also use functions developed by nickc1 to download NDBC buoy data - see https://github.com/nickc1/buoypy
+**More information on CEM: https://csdms.colorado.edu/wiki/Model:CEM
+**
+We also use functions developed by nickc1 to download NDBC buoy data - see https://github.com/nickc1/buoypy**
