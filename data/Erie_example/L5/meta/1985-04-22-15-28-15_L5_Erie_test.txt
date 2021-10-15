@@ -1,0 +1,3 @@
+filename	1985-04-22-15-28-15_L5_Erie_test.tif
+acc_georef	4.492000102996826
+epsg	32617

@@ -6,6 +6,7 @@ from matplotlib import path
 import numpy as np
 import pandas as pd
 from IPython.display import clear_output
+from datetime import datetime
 
 def shorelinetogrid(x, y, dx, dy, plotdata=True):
     """ function to convert xy shoreline to gridded elevation for input to CEM
@@ -60,12 +61,12 @@ def shorelinetogrid(x, y, dx, dy, plotdata=True):
 
 
 def plotmeteo(X):
-    fig, ax = plt.subplots(2, sharex=True);
-    X.WVHT.plot(ax=ax[0]);
-    ax[0].set_ylabel('Wave Height (m)', fontsize=12);
-    X.DPD.plot(ax=ax[1]);
-    ax[1].set_ylabel('Dominant Period (s)', fontsize=12);
-    ax[1].set_xlabel('');
+    fig, axes = plt.subplots(2, sharex=True);
+    axes[0].plot(X.index,X.WVHT)
+    axes[1].plot(X.index,X.DPD)
+    axes[0].set_ylabel('Wave Height (m)', fontsize=12);
+    axes[1].set_ylabel('Dominant Period (s)', fontsize=12);
+    axes[1].set_xlabel('');
 
 def plot_coast(domain,dx,dy):
     '''Plot the coastline.
