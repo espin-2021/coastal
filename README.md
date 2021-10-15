@@ -33,7 +33,7 @@ A web browser will open, login with a gmail account and accept the terms and con
 
   ### Step 4. You're now ready to run this notebook!
 
-Type ```jupyter notebook``` in the terminal. A webpage will open showing your local repository in the jupyter application. Open the coastal notebook and start clicking!
+Type ```jupyter notebook``` in the terminal. A webpage will open showing your local repository in the jupyter application. Open the [coastal_index](coastal_index.ipynb) notebook and start clicking!
 * note : remember to activate your virtual environment each time you use this lab.
 
 
