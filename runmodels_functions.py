@@ -117,8 +117,8 @@ def run_model_loop(time_years, domain ,cem ,waves, animate=True,update_ani_years
     '''
     
     alpha = 'sea_surface_water_wave__azimuth_angle_of_opposite_of_phase_velocity'
-    update_ani = int(update_ani_years/cem.get_value('model__time_step'))
-    T = int(time_years/cem.get_value('model__time_step'))
+    update_ani = int(365*update_ani_years/cem.get_value('model__time_step'))
+    T = int(365*time_years/cem.get_value('model__time_step'))
     dx,dy = cem.grid_spacing(cem.var_grid('sea_water__depth'))
     for time in range(T):
         waves.update()
@@ -129,7 +129,7 @@ def run_model_loop(time_years, domain ,cem ,waves, animate=True,update_ani_years
             if time%update_ani == 0:
                 clear_output(wait=True)
                 plot_coast(cem.get_value('land_surface__elevation').reshape(domain.shape),dx,dy)
-                plt.title('Time : '+ str(int(time*cem.get_value('model__time_step'))) +' years',fontsize=20)
+                plt.title('Time : '+ str(int(time*cem.get_value('model__time_step')/365)) +' years',fontsize=20)
                 plt.show()
 
         else:
