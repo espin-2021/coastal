@@ -6,6 +6,8 @@ These shorelines feed into the CEM where they are evolved by historical wave cha
 
 ## Getting Started
 ##### Running this lab requires some advanced preparation (up to 1-2 days)
+**note:** Running the CoastSat data prep notebook needs to be done outside of the CSDMS jupyter hub, however the CEM notebook can only be run on a mac or linux (if you are a Windows machine, you can run the notebook through the CSDMS jupyter hub)
+
   ### Step 1. Download this repository to your local machine. 
 
   ### Step 2. Create a virtual environment
